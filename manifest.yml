@@ -1,0 +1,21 @@
+modules:
+  jira:adminPage:
+    - key: jmc-fields-info-hello-world-admin-page
+      resource: main
+      resolver:
+        function: resolver      
+      title: Info
+      icon: https://developer.atlassian.com/platform/forge/images/issue-panel-icon.svg
+  function:
+    - key: resolver
+      handler: index.handler
+resources:
+  - key: main
+    path: static/hello-world/build
+app:
+  id: ari:cloud:ecosystem::app/b339893b-a3df-4bd5-8978-08dcee22f4ba
+permissions:
+  scopes:
+    - write:jira-work
+    - read:jira-work
+    - storage:app
