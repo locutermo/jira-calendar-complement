@@ -1,11 +1,12 @@
 import React, { useEffect, useState,Fragment } from 'react';
-import { invoke,requestJira } from '@forge/bridge';
+import {requestJira } from '@forge/bridge';
 import Spinner from '@atlaskit/spinner';
 import Textfield from '@atlaskit/textfield';
 import ListField from './components/ListField'
+import fieldsData from './data/fields.json'
 function App() {
   const [data, setData] = useState(null);
-  const [fields,setFields] = useState(null);
+  const [fields,setFields] = useState([]);
   const [search,setSearch] = useState("");
   const getFields = async ()=>{
     const response = await requestJira('/rest/api/3/field')  
@@ -14,7 +15,6 @@ function App() {
 }
 
   useEffect(() => {
-    invoke('getText', { example: 'Prueba desde App js' }).then(setData);
     getFields();
   }, []);
 
@@ -51,7 +51,7 @@ function App() {
   return (
     <Fragment>      
       <div className="container py-10 min-w-full align-middle">
-        <Textfield name="basic" aria-label="default text field" placeholder="Buscar" onChange={onSearch}/>
+        <Textfield name="basic" aria-label="default text field" placeholder="Buscar" onChange={onSearch}/>        
       </div>
       {fields?renderFieldList():<Spinner/>}
     </Fragment>

@@ -1,0 +1,10 @@
+[
+    {
+        "name": "Test",
+        "id":"customfield_1001",
+        "schema":{
+            "type": "string"
+        }
+    }
+    
+]
