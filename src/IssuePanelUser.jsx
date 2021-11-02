@@ -23,8 +23,7 @@ export const IssuePanelUser = () => {
   const [message,setMessage] = useState('')
   const validate=()=>{    
     let temp = []
-    let {customfield_10069,customfield_10068} = issue.fields
-    console.log(customfield_10069,customfield_10068)
+    let {customfield_10069,customfield_10068} = issue.fields    
     users.forEach(user=>{
       if(user.displayName.toUpperCase().includes(customfield_10068.toUpperCase()) || (user.emailAddress!=undefined && user.emailAddress!=null?user.emailAddress.toUpperCase()==customfield_10069:false)){
         temp.push(user)

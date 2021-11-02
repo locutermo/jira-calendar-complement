@@ -20,7 +20,6 @@ function App() {
 
   const onSearch = (e) => {
     setSearch(e.target.value)
-    console.log(e)
   };
 
   const renderFieldList=()=>{
