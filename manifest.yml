@@ -12,9 +12,9 @@ modules:
       function: userPanel
       title: Administrar Usuarios
       icon: https://developer.atlassian.com/platform/forge/images/issue-panel-icon.svg
-      description: Translate issue fields into other languages    
+      description: Administrar el alta de usuarios en los proyectos
       displayConditions:
-        and: 
+        and:
           isAdmin: true
           projectKey: GHD
   function:
@@ -23,7 +23,7 @@ modules:
     - key: adminPage
       handler: index.runAdminPage
 app:
-  id: ari:cloud:ecosystem::app/b339893b-a3df-4bd5-8978-08dcee22f4ba
+  id: ari:cloud:ecosystem::app/293f19a7-ad13-40c9-a30b-927cac6b3fef
 permissions:
   scopes:
     - write:jira-work

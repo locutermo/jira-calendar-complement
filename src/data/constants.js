@@ -1,5 +1,5 @@
 export const DEFAULT_FIELD_CONFIGURATION = {
-    tableHeaders:  ['ID','Nombre','Tipo','Custom']
+    tableHeaders:  ['ID','Nombre','Tipo']
 
 }
 

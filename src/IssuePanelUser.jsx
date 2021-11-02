@@ -23,9 +23,9 @@ export const IssuePanelUser = () => {
   const [message,setMessage] = useState('')
   const validate=()=>{    
     let temp = []
-    let {customfield_10069,customfield_10068} = issue.fields    
+    let {customfield_10271,summary} = issue.fields    
     users.forEach(user=>{
-      if(user.displayName.toUpperCase().includes(customfield_10068.toUpperCase()) || (user.emailAddress!=undefined && user.emailAddress!=null?user.emailAddress.toUpperCase()==customfield_10069:false)){
+      if(user.displayName.toUpperCase().includes(summary.toUpperCase()) || (user.emailAddress!=undefined && user.emailAddress!=null?user.emailAddress.toUpperCase()==customfield_10271:false)){
         temp.push(user)
       }
     })
@@ -36,8 +36,8 @@ export const IssuePanelUser = () => {
 
   const addUserToSquad = async (displayName,accountId,roleName,isMainRole=false)=>{          
     let project,roleId,transitionId,response,aux    
-    let {customfield_10067} = issue.fields
-    projects.forEach(p=>{if(p.name==customfield_10067.value) project = p })    
+    let {customfield_11261} = issue.fields
+    projects.forEach(p=>{if(p.name==customfield_11261.value) project = p })    
     const roles =  await getRoles()    
     roles.forEach(p=>{if(p.name == roleName) roleId = p.id})
     response = await addUserToProject(accountId,project.key,roleId)    
@@ -82,7 +82,7 @@ export const IssuePanelUser = () => {
               <Cell><Text>{e.displayName}</Text></Cell>          
               <Cell><Text>{e.emailAddress?e.emailAddress:"Oculto"}</Text></Cell>       
               <Cell><Text>{e.active?<StatusLozenge text="Activo" appearance="inprogress" />:<StatusLozenge text="Desactivado" appearance="removed" />}</Text></Cell>                   
-              <Cell><Button text="Agregar Rol" onClick={()=>addUserToSquad(e.displayName,e.accountId,issue.fields.customfield_10070.value,true)} /></Cell>        
+              <Cell><Button text="Agregar Rol" onClick={()=>addUserToSquad(e.displayName,e.accountId,issue.fields.customfield_10270.value,true)} /></Cell>        
               <Cell><Button text="Agregar Rol por defecto" onClick={()=>addUserToSquad(e.displayName,e.accountId,'Team Member')} /></Cell>        
             </Row>
           ))}          
@@ -105,8 +105,8 @@ export const IssuePanelUser = () => {
           
         </Head>
         <Row>
-          <Cell><Text>{issue.fields.customfield_10069}</Text></Cell>          
-          <Cell><Text>{issue.fields.customfield_10068}</Text></Cell>          
+          <Cell><Text>{issue.fields.customfield_10271}</Text></Cell>          
+          <Cell><Text>{issue.fields.summary}</Text></Cell>          
           <Cell><Button text="Validar" onClick={validate} /></Cell>        
         </Row>
       </Table>

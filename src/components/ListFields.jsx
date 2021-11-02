@@ -9,9 +9,6 @@ import ForgeUI, {
 import {DEFAULT_FIELD_CONFIGURATION} from '../data/constants'
 
 const ListField=({data})=>{
-
-const tableHeaders = ['ID','Nombre','Tipo','Custom']
-
     return(
         <Table>
             <Head>
@@ -23,8 +20,7 @@ const tableHeaders = ['ID','Nombre','Tipo','Custom']
                 <Row>
                     <Cell><Text>{e.key}</Text></Cell>
                     <Cell><Text>{e.name}</Text></Cell>
-                    <Cell><Text>{e.schema?e.schema.type:'No definido'}</Text></Cell>
-                    <Cell><Text>{e.custom?"SI":"NO"}</Text></Cell>
+                    <Cell><Text>{e.schema?e.schema.type:'No definido'}</Text></Cell>                    
                 </Row>
             ))}
         </Table>
