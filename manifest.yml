@@ -16,7 +16,7 @@ modules:
       displayConditions:
         and: 
           isAdmin: true
-          projectKey: GHD
+          projectKey: TK
   function:
     - key: userPanel
       handler: index.runIssuePanelUser
