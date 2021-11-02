@@ -1,19 +1,27 @@
 modules:
   jira:adminPage:
     - key: jmc-fields-info-hello-world-admin-page
-      resource: main
-      resolver:
-        function: resolver      
+      function: adminPage
       title: Info
       icon: https://developer.atlassian.com/platform/forge/images/issue-panel-icon.svg
+      displayConditions:
+        isAdmin: true
+
+  jira:issuePanel:
+    - key: jmc-issue-panel-user-management
+      function: userPanel
+      title: Administrar Usuarios
+      icon: https://developer.atlassian.com/platform/forge/images/issue-panel-icon.svg
+      description: Translate issue fields into other languages    
+      displayConditions:
+        and: 
+          isAdmin: true
+          projectKey: TK
   function:
-    - key: resolver
-      handler: index.handler
-resources:
-  - key: main
-    path: static/hello-world/build
-    tunnel:
-      port: 3000
+    - key: userPanel
+      handler: index.runIssuePanelUser
+    - key: adminPage
+      handler: index.runAdminPage
 app:
   id: ari:cloud:ecosystem::app/b339893b-a3df-4bd5-8978-08dcee22f4ba
 permissions:
@@ -21,3 +29,5 @@ permissions:
     - write:jira-work
     - read:jira-work
     - storage:app
+    - read:jira-user
+    - manage:jira-configuration

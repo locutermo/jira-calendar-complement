@@ -1,17 +1,8 @@
-import Resolver from '@forge/resolver';
-import {getDataFromJira} from './helpers'
+import {IssuePanelUser} from './IssuePanelUser'
+import {AdminPageConfig} from './AdminPage'
+import ForgeUI, {render} from "@forge/ui";
 
-const resolver = new Resolver();
 
-resolver.define('getText', (req) => {
-  console.log(req);
 
-  return 'Hola mundo.....!';
-});
-
-resolver.define('get-all-fields',(req) => {
-  const data = getDataFromJira('/rest/api/3/field')
-  return data
-})
-
-export const handler = resolver.getDefinitions();
+export const runIssuePanelUser = render(<IssuePanelUser/>)
+export const runAdminPage = render(<AdminPageConfig/>)
