@@ -146,6 +146,37 @@ export const getRoles = async () => {
   return response
 }
 
+
+export const getAllUsers = async (limit) => {
+  let maxResults = 50
+  let startAt = 0
+  let users = []
+  let _users = []
+  let temp  
+  let urls = []
+  while(startAt < limit){
+    urls.push(`/rest/api/3/users/search?startAt=${startAt}&maxResults=${maxResults}`)
+    if(limit - startAt < 50)
+      startAt = startAt + (limit-startAt)   
+    else
+      startAt = startAt + 50 
+  }
+  users = Promise.all(
+    urls.map( async e=>{
+      temp  = await getDataFromJira(e);
+      return temp      
+    })
+  )
+  
+  return users
+}
+
+export const getAllUsersFromGroup= async (groupname)=>{
+  const response = await getDataFromJira(`/rest/api/3/group/member?groupname=${groupname}`);
+  return response.values
+}
+
+
 export const getTransitions = async (issueKey) => {
   const response = await getDataFromJira(`/rest/api/2/issue/${issueKey}/transitions`);
   return response.transitions
