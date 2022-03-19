@@ -1,33 +1,29 @@
 modules:
-  jira:adminPage:
-    - key: jmc-fields-info-hello-world-admin-page
-      function: adminPage
-      title: Info
-      icon: https://developer.atlassian.com/platform/forge/images/issue-panel-icon.svg
+  jira:projectPage:
+    - key: comite-view
+      title: Calendario
+      resource: jira-calendar
+      icon: https://bcsm.es/wp-content/uploads/2016/05/calendar-icon.png
+      resolver:
+        function: resolver
       displayConditions:
-        isAdmin: true
-
-  jira:issuePanel:
-    - key: jmc-issue-panel-user-management
-      function: userPanel
-      title: Administrar Usuarios
-      icon: https://developer.atlassian.com/platform/forge/images/issue-panel-icon.svg
-      description: Administrar el alta de usuarios en los proyectos
-      displayConditions:
-        and:
-          isAdmin: true
-          projectKey: GHD
+        projectKey: GOBII
   function:
-    - key: userPanel
-      handler: index.runIssuePanelUser
-    - key: adminPage
-      handler: index.runAdminPage
+    - key: resolver
+      handler: resolver.handler
+resources:
+  - key: jira-calendar
+    path: static/Calendar/build
+    tunnel:
+      port: 3000
 app:
-  id: ari:cloud:ecosystem::app/293f19a7-ad13-40c9-a30b-927cac6b3fef
+  id: ari:cloud:ecosystem::app/ef73465c-b67b-4768-b473-0e786e2084f6
 permissions:
   scopes:
-    - write:jira-work
-    - read:jira-work
     - storage:app
-    - read:jira-user
-    - manage:jira-configuration
+    - read:issue:jira-software	
+    - read:jira-work
+
+  content:
+    styles:
+      - unsafe-inline

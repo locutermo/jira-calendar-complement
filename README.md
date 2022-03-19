@@ -35,3 +35,6 @@ forge install
 ## Support
 
 See [Get help](https://developer.atlassian.com/platform/forge/get-help/) for how to get help and provide feedback.
+
+
+https://atlassian.design/components/avatar/examples
