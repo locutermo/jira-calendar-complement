@@ -14,6 +14,8 @@ export default class Calendar extends React.Component {
     calendarEvents: this.props.events
   };
 
+
+
   render() {
     return (
       <div className="calendar-app">
@@ -31,15 +33,30 @@ export default class Calendar extends React.Component {
               center: "title",
               right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
             }}
+            editable={true}
+            locale='es'
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             ref={this.calendarComponentRef}
             weekends={this.state.calendarWeekends}
             events={this.state.calendarEvents}
+            eventDrop={this.handleEventDrop}
             dateClick={this.handleDateClick}
           />
         </div>
       </div>
     );
+  }
+
+  handleEventDrop = (info) => {
+    if(window.confirm("Estas seguro que quieres cambiar la fecha de evento?")){
+      console.log('change confirmed')
+      console.log(info,info.event.extendedProps.key)
+      // updateAppointment is another custom method
+      this.props.updateDate({key:info.event.extendedProps.key,start: info.event.start, end: info.event.end})
+
+    } else {
+        console.log('change aborted')
+    }
   }
 
   toggleWeekends = () => {
