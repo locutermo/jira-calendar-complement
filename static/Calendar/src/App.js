@@ -39,14 +39,15 @@ function App(){
     })
   }
 
-  const handleCreateIssue=({summary,start})=>{
+  const handleCreateIssue=({summary,start,end,allDay})=>{
     console.log("Mostrando los datos ",summary,start)
-    invoke('createIssue',{summary,start}).then(res=>{
+    invoke('createIssue',{summary,start,end}).then(res=>{
       console.log("Resultado de creacion de issue:",res)
       if(res.status==201){
         setData(data.concat({
           title:summary,
-          start
+          start,
+          end
         }))
         console.log(data)
       }

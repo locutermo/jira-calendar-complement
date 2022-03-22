@@ -9,7 +9,7 @@ import { invoke } from '@forge/bridge';
 import Modal, { ModalBody, ModalFooter, ModalHeader, ModalTitle, ModalTransition} from '@atlaskit/modal-dialog';
 import Swal from 'sweetalert2'
 const CreateIssueModal = (props) => {
-        const {isOpen,createIssue,toggle,startDate} = props 
+        const {isOpen,createIssue,toggle,startDate,endDate,allDay} = props 
         const [summary,setSummary]=useState("")
         useEffect(()=>{
             console.log("Mostrando los props del modal:",props)
@@ -20,14 +20,16 @@ const CreateIssueModal = (props) => {
     const handleCreateIssue=(props)=>{
         Swal.fire({
             icon: 'success',
-            title: 'Cambios Actualizados',
-            text: 'Se realizaron los cambios requeridos con éxito',
+            title: 'Tarea Agregada',
+            text: `Se agregò la tarea ${summary}`,
             showConfirmButton: false,
             timer: 2500
           })
         createIssue({
             summary,
-            start:startDate
+            start:startDate,
+            end:endDate,
+            allDay
         })
         toggle()
         cleanFields()
@@ -42,37 +44,47 @@ const CreateIssueModal = (props) => {
 
         <ModalTransition width="100%">
         {isOpen && (
-        <Modal  onClose={() => {toggle()}}width="large">
-            <ModalHeader>
-            <ModalTitle>FORMULARIO DE REGISTRO</ModalTitle>
-            </ModalHeader>
-            <ModalBody>
-                <div style={{display:"flex", justifyContent:"space-between"}}>
-                    <div style={{display:"flex",flexDirection:"column", paddingTop:"2vh",width:"27%"}}>
-                    <div style={{marginBottom: "2vh"}}>
+            <Modal  onClose={() => {toggle()}}width="large">
+                <ModalHeader>
+                <ModalTitle>FORMULARIO DE REGISTRO</ModalTitle>
+                </ModalHeader>
+                <ModalBody>
+                    <div style={{display:"flex", justifyContent:"space-between"}}>
+                        <div style={{display:"flex",flexDirection:"column", paddingTop:"2vh",width:"27%"}}>
+                        <div style={{marginBottom: "2vh"}}>
                             <b >Fecha Programada de Inicio</b>
                             <br/>
                             <span>{startDate}</span>
+                        </div>
+                        <div style={{marginBottom: "2vh"}}>
+                            <b >Fecha Programada de Fin</b>
+                            <br/>
+                            <span>{endDate}</span>
+                        </div>
+                        <div style={{marginBottom: "2vh"}}>
+                            <b >Todo el dìa</b>
+                            <br/>
+                            <span>{allDay?"SI":"NO"}</span>
+                        </div>
+                        <b>Summary</b>
+                            <TextField
+                            size="small"
+                            id="outlined-disabled"
+                            placeholder=""
+                            displayEmpty
+                            autoFocus
+                            value={summary}
+                            onChange={(e)=> setSummary(e.target.value)} 
+                            />
+                        </div>
                     </div>
-                      <b>Summary</b>
-                        <TextField
-                        size="small"
-                        id="outlined-disabled"
-                        placeholder="Escriba sus observaciones ..."
-                        displayEmpty
-                        autoFocus
-                        value={summary}
-                        onChange={(e)=> setSummary(e.target.value)} 
-                        />
-                    </div>
-                </div>
-            </ModalBody>
-            <ModalFooter>
-                    <Button sx={{color:"rgb(21,101,192)"}} variant="outlined"  onClick={() => {toggle()}}>
-                    Cancelar
-                    </Button>
-                    <Button sx={{backgroundColor:"rgb(21,101,192)"}} variant="contained" onClick={()=>{handleCreateIssue()}}>Guardar</Button>                
-            </ModalFooter>
+                </ModalBody>
+                <ModalFooter>
+                        <Button sx={{color:"rgb(21,101,192)"}} variant="outlined"  onClick={() => {toggle()}}>
+                        Cancelar
+                        </Button>
+                        <Button sx={{backgroundColor:"rgb(21,101,192)"}} variant="contained" onClick={()=>{handleCreateIssue()}}>Guardar</Button>                
+                </ModalFooter>
             </Modal>
             )}
         </ModalTransition>
