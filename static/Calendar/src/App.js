@@ -23,8 +23,7 @@ function App(){
     return data
   }
 
-  const handleUpdateDate=({key,start,end})=>{
-    console.log("DATA: ",key,start,end)
+  const handleUpdateDate=({key,start,end})=>{    
     invoke('updateDateIssue',{key,start,end}).then(res=>{
       let temp = data.map(e=>{ 
         if(e.extendedProps.key==key){
@@ -40,9 +39,23 @@ function App(){
     })
   }
 
+  const handleCreateIssue=({summary,start})=>{
+    console.log("Mostrando los datos ",summary,start)
+    invoke('createIssue',{summary,start}).then(res=>{
+      console.log("Resultado de creacion de issue:",res)
+      if(res.status==201){
+        setData(data.concat({
+          title:summary,
+          start
+        }))
+        console.log(data)
+      }
+    })
+  }
+
   return (
     <>
-      {loading?(<span>Cargando...</span>):(<Calendar updateDate={props=>{handleUpdateDate(props)}} events={data} />)}
+      {loading?(<span>Cargando...</span>):(<Calendar createIssue={handleCreateIssue} updateDate={props=>{handleUpdateDate(props)}} events={data} />)}
     </>
   )
 

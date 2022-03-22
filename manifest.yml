@@ -1,6 +1,6 @@
 modules:
   jira:projectPage:
-    - key: comite-view
+    - key: calendar-view
       title: Calendario
       resource: jira-calendar
       icon: https://bcsm.es/wp-content/uploads/2016/05/calendar-icon.png
@@ -21,9 +21,12 @@ app:
 permissions:
   scopes:
     - storage:app
-    - read:issue:jira-software	
+    - read:issue:jira-software    
+    - write:issue:jira-software
     - read:jira-work
-
+    - write:jira-work
+    - write:issue:jira
+    - write:issue.property:jira
   content:
     styles:
       - unsafe-inline

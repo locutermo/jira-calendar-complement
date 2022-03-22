@@ -4,28 +4,44 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import { invoke } from '@forge/bridge';
-
+import CreateIssueModal from './CreateIssueModal'
 import "../styles.css";
 export default class Calendar extends React.Component {
   calendarComponentRef = React.createRef();
 
   state = {
     calendarWeekends: true,
-    calendarEvents: this.props.events
+    calendarEvents: this.props.events,
+    isOpenCreateModal:false,
+    startSelected:"",
+    endSelected:""
   };
 
+  toggleCreateModal=()=>{
+    this.setState({
+      isOpenCreateModal:!this.state.isOpenCreateModal
+    })
+  }
 
+  handleCreateIssue=({summary,start})=>{
+    this.setState({          
+          calendarEvents: this.state.calendarEvents.concat({            
+            title: summary,
+            start: start,            
+          })
+        });
+    this.props.createIssue({summary,start})
+  }
 
   render() {
     return (
       <div className="calendar-app">
         <div className="calendar-app-top">
           {/* <button onClick={this.toggleWeekends}>toggle weekends</button>&nbsp;
-          <button onClick={this.gotoPast}>go to a date in the past</button> */}
-          {/* &nbsp; (also, click a date/time to add an event) */}
-          {/* <h1>{this.props.title}</h1> */}
+          <button onClick={this.gotoPast}>go to a date in the past</button> */}          
         </div>
         <div className="calendar-app-calendar">
+          <CreateIssueModal startDate={this.state.startSelected} createIssue={this.handleCreateIssue} isOpen={this.state.isOpenCreateModal} toggle={this.toggleCreateModal}/>
           <FullCalendar
             defaultView="dayGridMonth"
             header={{
@@ -72,16 +88,19 @@ export default class Calendar extends React.Component {
   };
 
   handleDateClick = arg => {
-    if (confirm("Quieres agregar una actividad con fecha " + arg.dateStr + " ?")) {
-      this.setState({
-        // add new event data
-        calendarEvents: this.state.calendarEvents.concat({
-          // creates a new array
-          title: "New Event",
-          start: arg.date,
-          allDay: arg.allDay
-        })
-      });
-    }
+    this.setState({startSelected:arg.dateStr})
+    console.log(arg)
+    this.toggleCreateModal()  
+    // if (confirm("Quieres agregar una actividad con fecha " + arg.dateStr + " ?")) {
+    //   this.setState({
+    //     // add new event data
+    //     calendarEvents: this.state.calendarEvents.concat({
+    //       // creates a new array
+    //       title: "New Event",
+    //       start: arg.date,
+    //       allDay: arg.allDay
+    //     })
+    //   });
+    // }
   };
 }

@@ -38,3 +38,6 @@ See [Get help](https://developer.atlassian.com/platform/forge/get-help/) for how
 
 
 https://atlassian.design/components/avatar/examples
+https://fullcalendar.io/docs/react
+https://fullcalendar.io/docs#toc
+https://fullcalendar.io/demos
