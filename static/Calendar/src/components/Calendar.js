@@ -2,21 +2,33 @@ import React from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
+import interactionPlugin from "@fullcalendar/interaction";
+import NewFeature16Icon from '@atlaskit/icon-object/glyph/new-feature/16'
+import Select from '@atlaskit/select';
+import Button from '@atlaskit/button';
+import Tooltip from '@atlaskit/tooltip';
+
 import { invoke } from '@forge/bridge';
 import CreateIssueModal from './CreateIssueModal'
+import styled from 'styled-components'
 import "../styles.css";
 export default class Calendar extends React.Component {
   calendarComponentRef = React.createRef();
 
   state = {
-    calendarWeekends: true,
+    calendarWeekends: false,
     calendarEvents: this.props.events,
     isOpenCreateModal:false,
     startSelected:"",
     endSelected:"",
     allDaySelected:true,
   };
+
+componentWillUpdate(nextProps, nextState) {
+    if(this.state.calendarEvents!=nextProps.events){
+      this.setState({calendarEvents:nextProps.events})
+    }
+}
 
 
   toggleCreateModal=()=>{
@@ -39,10 +51,11 @@ export default class Calendar extends React.Component {
 
   renderEventInfo=(eventInfo)=>{
     return(
-      <>      
+      <EventItem>      
+       <NewFeature16Icon label="issuetype" />
       <b>{eventInfo.timeText}</b>
       <i>{eventInfo.event.title}</i>
-      </>
+      </EventItem>
     )
   }
 
@@ -65,8 +78,7 @@ export default class Calendar extends React.Component {
   }
 
   handleEventDrop = (info) => {
-    if(window.confirm("Estas seguro que quieres cambiar la fecha de evento?")){
-      console.log('change confirmed')
+    if(window.confirm("Estas seguro que quieres cambiar la fecha de evento?")){      
       console.log(info,info.event.extendedProps.key)
       // updateAppointment is another custom method
       this.props.updateDate({key:info.event.extendedProps.key,start: info.event.start, end: info.event.end})
@@ -122,17 +134,21 @@ export default class Calendar extends React.Component {
     // }
   };
 
+  
+
+
+
   render() {
     return (
       <div className="calendar-app">
         <div className="calendar-app-top">
           {/* <button onClick={this.toggleWeekends}>toggle weekends</button>&nbsp;
           <button onClick={this.gotoPast}>go to a date in the past</button> */} 
-          <button onClick={this.toggleWeekends}>Mostrar/Ocultar fin de semana</button>         
+          {/* <Button appearance="primary" onClick={this.toggleWeekends}>Mostrar/Ocultar fin de semana</Button> */}
         </div>
         <div className="calendar-app-calendar">
           <CreateIssueModal startDate={this.state.startSelected} endDate={this.state.endSelected} allDay={this.state.allDaySelected}
-           createIssue={this.handleCreateIssue} isOpen={this.state.isOpenCreateModal} toggle={this.toggleCreateModal}/>
+           createIssue={this.handleCreateIssue} isOpen={this.state.isOpenCreateModal} toggle={this.toggleCreateModal}/>                      
           <FullCalendar
             defaultView="dayGridMonth"
             headerToolbar={{
@@ -153,7 +169,49 @@ export default class Calendar extends React.Component {
             events={this.state.calendarEvents}
             eventClick={this.handleEventClick}
             // eventsSet={this.handleEvents}
-            eventDrop={this.handleEventDrop}            
+            eventDrop={this.handleEventDrop}
+            
+            eventLimit
+            slotDuration={{ minutes: 30 }}
+            slotLabelInterval={{ hours: 1 }}
+            slotLabelFormat={{
+              hour: "numeric",
+              minute: "2-digit",
+              meridiem: true,
+              hour12: true,
+              omitZeroMinute: true,
+
+            }}
+            slotMinTime={{hours:8}}
+            slotMaxTime={{hours:23}}
+            columnHeaderFormat={{ weekday: "long" }}
+            buttonText={{
+              today:    'Hoy',
+              month:    'Mes',
+              week:     'Semana',
+              day:      'Dìa',
+              list:     'Lista'
+            }}
+            // Event attributes
+            eventColor={'#378006'}
+            //eventBackgroundColor={'orange'}
+            //eventTextColor={'red'}
+            eventTimeFormat={{
+              hour: 'numeric',
+              minute: '2-digit',
+              meridiem: 'short',
+              hour12: true,
+              omitZeroMinute: true,
+            }}
+            resources= {[
+              { id: 'a', title: 'Room A' },
+              { id: 'b', title: 'Room B' }
+            ]}
+            eventDidMount={(arg)=>{
+              return <Tooltip content="Hello World">
+                {arg.el}
+                </Tooltip>
+              }}
           />
         </div>
       </div>
@@ -161,3 +219,11 @@ export default class Calendar extends React.Component {
   }
 
 }
+
+const EventItem = styled.div`
+  padding: 1px;
+  & > b {
+    margin-right: 2px;
+    margin-left: 2px;
+  }
+`

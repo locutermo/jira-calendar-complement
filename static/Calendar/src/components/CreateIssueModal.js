@@ -3,7 +3,6 @@ import Moment from 'moment';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { invoke } from '@forge/bridge';
 import Modal, { ModalBody, ModalFooter, ModalHeader, ModalTitle, ModalTransition} from '@atlaskit/modal-dialog';

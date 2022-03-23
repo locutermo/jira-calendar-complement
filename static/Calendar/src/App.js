@@ -1,14 +1,15 @@
 import React,{useEffect,useState} from 'react'
 import Calendar from './components/Calendar'
 import { invoke } from '@forge/bridge';
+import CalendarFilter from './components/CalendarFilters';
 
 function App(){
-  const [data,setData] = useState([])
+  const [data,setData] = useState([])  
   const [loading,setLoading] = useState(true)
+  const [assigneeFilterSelected,setAssigneeFilterSelected] = useState('TODO')
   useEffect(()=>{
     invoke('getDataJson').then(res=>{
-      setData(formatIssue(res.issues))
-      console.log(formatIssue(res.issues))
+      setData(formatIssue(res.issues))      
       setLoading(false);  
     })
   },[])
@@ -34,29 +35,37 @@ function App(){
           }
         }
       })
-      setData(temp)
-     console.log("Data respuesta: ",res)
+      setData(temp)     
     })
   }
 
-  const handleCreateIssue=({summary,start,end,allDay})=>{
-    console.log("Mostrando los datos ",summary,start)
+  const handleCreateIssue=({summary,start,end,allDay})=>{    
     invoke('createIssue',{summary,start,end}).then(res=>{
-      console.log("Resultado de creacion de issue:",res)
       if(res.status==201){
         setData(data.concat({
           title:summary,
           start,
-          end
+          end,
+          accountId:assigneeFilterSelected
         }))
-        console.log(data)
       }
     })
   }
 
+  const onChangeFilter=(e)=>{    
+    setAssigneeFilterSelected(e.value)
+  }
+
   return (
     <>
-      {loading?(<span>Cargando...</span>):(<Calendar createIssue={handleCreateIssue} updateDate={props=>{handleUpdateDate(props)}} events={data} />)}
+      {loading?(<span>Cargando...</span>):(
+        <div className="container">
+          <CalendarFilter events={data} onChangeAssigneeFilter={onChangeFilter}></CalendarFilter>          
+          <Calendar createIssue={handleCreateIssue} updateDate={props=>{handleUpdateDate(props)}} events={
+            assigneeFilterSelected=="TODO"?data:data.filter(e=>e.extendedProps.fields.assignee!=null?e.extendedProps.fields.assignee.accountId==assigneeFilterSelected:false)
+          } />
+        </div>        
+         )}
     </>
   )
 

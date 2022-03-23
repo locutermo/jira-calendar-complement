@@ -41,3 +41,5 @@ https://atlassian.design/components/avatar/examples
 https://fullcalendar.io/docs/react
 https://fullcalendar.io/docs#toc
 https://fullcalendar.io/demos
+https://fullcalendar.io/docs/displayEventEnd
+https://fullcalendar.io/docs/event-render-hooks

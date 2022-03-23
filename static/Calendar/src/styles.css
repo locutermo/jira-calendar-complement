@@ -9,6 +9,10 @@
   
   .calendar-app-calendar {
     margin: 0 auto;
-    max-width: 1300px;
+    max-width: 100%;
   }
   
+.container{
+  display: flex;
+  flex-direction: column;
+}
