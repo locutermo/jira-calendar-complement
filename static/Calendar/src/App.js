@@ -9,6 +9,7 @@ function App(){
   const [assigneeFilterSelected,setAssigneeFilterSelected] = useState('TODO')
   useEffect(()=>{
     invoke('getDataJson').then(res=>{
+      console.log("Render:",res.issues)
       setData(formatIssue(res.issues))      
       setLoading(false);  
     })
@@ -44,8 +45,8 @@ function App(){
   const handleCreateIssue=({summary,start,end,allDay})=>{    
     invoke('createIssue',{summary,start,end,accountId:assigneeFilterSelected=="TODO"?null:assigneeFilterSelected}).then(res=>{
       console.log("Response Create issue",res)
-      console.log("Estado:",res.status)
-      if(res.status==201){
+      console.log("RESt:",res,"STATUS:",res.status)
+      // if(res.status==201){
         setData(data.concat({
           title:summary,
           start,
@@ -56,20 +57,21 @@ function App(){
             self:res.self,
             fields:{
               summary,
-              assignee:{                
-                accountId:assigneeFilterSelected=="TODO"?null:assigneeFilterSelected
+              assignee: assigneeFilterSelected=="TODO"?null:{                
+                accountId:assigneeFilterSelected
               },
               customfield_10780:start,
               customfield_10781:end,
             }
           }
         }))
-      }
+      // }
     })
   }
 
   const onChangeFilter=(e)=>{    
     setAssigneeFilterSelected(e.value)
+    console.log(data,e)
   }
 
   return (

@@ -6,12 +6,22 @@ import interactionPlugin from "@fullcalendar/interaction";
 import NewFeature16Icon from '@atlaskit/icon-object/glyph/new-feature/16'
 import Select from '@atlaskit/select';
 import Button from '@atlaskit/button';
-import Tooltip from '@atlaskit/tooltip';
-
+import Tooltip, { TooltipPrimitive } from '@atlaskit/tooltip';
+import styled from '@emotion/styled';
+import {EventItem} from './styled/EventItem'
 import { invoke } from '@forge/bridge';
 import CreateIssueModal from './CreateIssueModal'
-import styled from 'styled-components'
 import "../styles.css";
+
+const InlineDialog = styled(TooltipPrimitive)`
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-sizing: content-box;
+  padding: 8px 12px;
+`;
+
+
 export default class Calendar extends React.Component {
   calendarComponentRef = React.createRef();
 
@@ -51,11 +61,13 @@ componentWillUpdate(nextProps, nextState) {
 
   renderEventInfo=(eventInfo)=>{
     return(
-      <EventItem>      
-       <NewFeature16Icon label="issuetype" />
-      <b>{eventInfo.timeText}</b>
-      <i>{eventInfo.event.title}</i>
-      </EventItem>
+      <Tooltip component={InlineDialog} content={eventInfo.timeText}>
+        <EventItem>      
+        <NewFeature16Icon label="issuetype" />
+        {/* <b>{eventInfo.timeText}</b> */}
+        <i>{eventInfo.event.title}</i>
+        </EventItem>
+      </Tooltip>
     )
   }
 
@@ -207,12 +219,7 @@ componentWillUpdate(nextProps, nextState) {
               { id: 'a', title: 'Room A' },
               { id: 'b', title: 'Room B' }
             ]}
-            eventDidMount={(arg)=>{
-              console.log("ARG:",arg.el)
-              return <Tooltip content="Hello World">
-                {arg.el}
-                </Tooltip>
-              }}
+
           />
         </div>
       </div>
@@ -221,10 +228,3 @@ componentWillUpdate(nextProps, nextState) {
 
 }
 
-const EventItem = styled.div`
-  padding: 1px;
-  & > b {
-    margin-right: 2px;
-    margin-left: 2px;
-  }
-`
