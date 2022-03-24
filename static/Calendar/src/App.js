@@ -26,27 +26,43 @@ function App(){
 
   const handleUpdateDate=({key,start,end})=>{    
     invoke('updateDateIssue',{key,start,end}).then(res=>{
-      let temp = data.map(e=>{ 
+      console.log("Response update:",res)
+      console.log("Todos",data,key,start,end)
+      setData(data.map(e=>{ 
         if(e.extendedProps.key==key){
           return {
-            ...e,
-            start:e.start,
-            end:e.end
+            title:e.title,            
+            start,
+            end,
+            extendedProps:e.extendedProps
           }
-        }
-      })
-      setData(temp)     
+        }else return e
+      }))     
     })
   }
 
   const handleCreateIssue=({summary,start,end,allDay})=>{    
-    invoke('createIssue',{summary,start,end}).then(res=>{
+    invoke('createIssue',{summary,start,end,accountId:assigneeFilterSelected=="TODO"?null:assigneeFilterSelected}).then(res=>{
+      console.log("Response Create issue",res)
+      console.log("Estado:",res.status)
       if(res.status==201){
         setData(data.concat({
           title:summary,
           start,
           end,
-          accountId:assigneeFilterSelected
+          extendedProps:{
+            key:res.key,
+            id:res.id,
+            self:res.self,
+            fields:{
+              summary,
+              assignee:{                
+                accountId:assigneeFilterSelected=="TODO"?null:assigneeFilterSelected
+              },
+              customfield_10780:start,
+              customfield_10781:end,
+            }
+          }
         }))
       }
     })

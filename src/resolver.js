@@ -35,11 +35,11 @@ resolver.define('createIssue',async ({payload,context})=>{
         summary:payload.summary,
         customfield_10780:payload.start,
         customfield_10781:payload.end,
-        assignee:{accountId:payload.accountId}
+        assignee:{id:payload.accountId}
       }})
     })
 
-    return response
+    return response.json()
 })
 
 

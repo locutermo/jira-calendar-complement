@@ -81,7 +81,7 @@ componentWillUpdate(nextProps, nextState) {
     if(window.confirm("Estas seguro que quieres cambiar la fecha de evento?")){      
       console.log(info,info.event.extendedProps.key)
       // updateAppointment is another custom method
-      this.props.updateDate({key:info.event.extendedProps.key,start: info.event.start, end: info.event.end})
+      this.props.updateDate({key:info.event.extendedProps.key,start: info.event.startStr, end: info.event.endStr})
 
     } else {
         console.log('change aborted')
@@ -208,6 +208,7 @@ componentWillUpdate(nextProps, nextState) {
               { id: 'b', title: 'Room B' }
             ]}
             eventDidMount={(arg)=>{
+              console.log("ARG:",arg.el)
               return <Tooltip content="Hello World">
                 {arg.el}
                 </Tooltip>
