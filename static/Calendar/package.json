@@ -7,6 +7,8 @@
     "@atlaskit/button": "^15.1.2",
     "@atlaskit/checkbox": "^11.0.7",
     "@atlaskit/css-reset": "^6.0.1",
+    "@atlaskit/datetime-picker": "^11.1.7",
+    "@atlaskit/form": "^8.5.2",
     "@atlaskit/icon": "^21.1.4",
     "@atlaskit/icon-object": "^6.2.5",
     "@atlaskit/lozenge": "^10.0.6",

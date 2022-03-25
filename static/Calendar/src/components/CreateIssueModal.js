@@ -1,22 +1,25 @@
 import React,{useCallback,useState,useEffect}  from 'react'
 import Moment from 'moment';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import FormControl from '@mui/material/FormControl';
-import MenuItem from '@mui/material/MenuItem';
-import { invoke } from '@forge/bridge';
+import Button from '@atlaskit/button/standard-button';
+import Form, { Field, FormFooter, HelperMessage } from '@atlaskit/form';
+
+import Textfield from '@atlaskit/textfield';
+import { DateTimePicker } from '@atlaskit/datetime-picker';
+
 import Modal, { ModalBody, ModalFooter, ModalHeader, ModalTitle, ModalTransition} from '@atlaskit/modal-dialog';
 import Swal from 'sweetalert2'
 const CreateIssueModal = (props) => {
-        const {isOpen,createIssue,toggle,startDate,endDate,allDay} = props 
-        const [summary,setSummary]=useState("")
+        const {isOpen,createIssue,toggle,allDay,startDate,endDate} = props 
+        
+        // const [summary,setSummary]=useState("")
         useEffect(()=>{
             console.log("Mostrando los props del modal:",props)
         },[isOpen,startDate])
 
   
   
-    const handleCreateIssue=(props)=>{
+    const handleCreateIssue=({summary,startDate,endDate})=>{
+        console.log("Creando:",props)
         Swal.fire({
             icon: 'success',
             title: 'Tarea Agregada',
@@ -45,10 +48,44 @@ const CreateIssueModal = (props) => {
         {isOpen && (
             <Modal  onClose={() => {toggle()}}width="large">
                 <ModalHeader>
-                <ModalTitle>FORMULARIO DE REGISTRO</ModalTitle>
+                <ModalTitle>Crear actividad</ModalTitle>
                 </ModalHeader>
+                <Form onSubmit={handleCreateIssue}>
+                {({formProps}) => (
+                            <form {...formProps}>
                 <ModalBody>
-                    <div style={{display:"flex", justifyContent:"space-between"}}>
+
+                        
+                            <Field label="Summary" name="summary" isRequired={true}>
+                                {({ fieldProps }) => (
+                                <>
+                                    <Textfield placeholder="" {...fieldProps} />
+                                    <HelperMessage> Ingresa el título de la actividad </HelperMessage>
+                                </>
+                                )}
+                            </Field>                         
+                            <Field label="Fecha de inicio"  name="startDate" isRequired={true}
+                                defaultValue={startDate}
+                                >
+                                {({ fieldProps }) => (
+                                    <>
+                                    <DateTimePicker {...fieldProps}  />
+                                    <HelperMessage></HelperMessage>
+                                    </>
+                                )}
+                            </Field>
+                            <Field label="Fecha de fin"  name="endDate" isRequired={true}
+                                defaultValue={endDate}
+                                >
+                                {({ fieldProps }) => (
+                                    <>
+                                    <DateTimePicker {...fieldProps}/>
+                                    <HelperMessage></HelperMessage>
+                                    </>
+                                )}
+                            </Field>
+                         
+                    {/* <div style={{display:"flex", justifyContent:"space-between"}}>
                         <div style={{display:"flex",flexDirection:"column", paddingTop:"2vh",width:"27%"}}>
                         <div style={{marginBottom: "2vh"}}>
                             <b >Fecha Programada de Inicio</b>
@@ -76,14 +113,19 @@ const CreateIssueModal = (props) => {
                             onChange={(e)=> setSummary(e.target.value)} 
                             />
                         </div>
-                    </div>
+                    </div> */}
                 </ModalBody>
-                <ModalFooter>
-                        <Button sx={{color:"rgb(21,101,192)"}} variant="outlined"  onClick={() => {toggle()}}>
-                        Cancelar
-                        </Button>
-                        <Button sx={{backgroundColor:"rgb(21,101,192)"}} variant="contained" onClick={()=>{handleCreateIssue()}}>Guardar</Button>                
+                <ModalFooter>                        
+                        <FormFooter>
+                            <Button  type="button" appearance="default"  onClick={() => {toggle()}}>Cancelar</Button>
+                            <Button type="submit" appearance="primary">Crear</Button>
+                        </FormFooter>
+
                 </ModalFooter>
+                    </form>
+                        )}
+                    </Form>
+
             </Modal>
             )}
         </ModalTransition>
