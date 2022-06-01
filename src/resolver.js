@@ -24,6 +24,23 @@ resolver.define('updateDateIssue',async ({payload,context})=>{
     return response
 });
 
+resolver.define('cancelDateIssue',async ({payload,context})=>{  
+  let response = await api.asUser()
+    .requestJira(`/rest/api/2/issue/${payload.key}/transitions`,{
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        fields:{
+          customfield_10484:{value:"Solicitado por Usuario"},
+          customfield_10763:0
+        },
+        transitions:{id:51}
+      }),
+    })
+  
+    return response.json()
+});
+
 resolver.define('createIssue',async ({payload,context})=>{
   let response = await api.asUser()
     .requestJira(`/rest/api/2/issue`,{

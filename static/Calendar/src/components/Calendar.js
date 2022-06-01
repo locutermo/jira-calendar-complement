@@ -84,7 +84,8 @@ componentWillUpdate(nextProps, nextState) {
   }
 
   handleEventClick = (clickInfo) => {
-    if (confirm(`Estas seguro de eliminar la tarea '${clickInfo.event.title}'`)) {
+    if (confirm(`Estas seguro desea cancelar la tarea '${clickInfo.event.title}'`)) {
+      this.props.deleteDate(clickInfo.event.extendedProps.key);
       clickInfo.event.remove()
     }
   }

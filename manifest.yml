@@ -7,7 +7,7 @@ modules:
       resolver:
         function: resolver
       displayConditions:
-        projectKey: GOBII
+        projectKey: GOB
   function:
     - key: resolver
       handler: resolver.handler

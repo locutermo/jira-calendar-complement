@@ -1,6 +1,6 @@
-# Forge Hello World
+# Jira Cloud Calendar
 
-This project contains a Forge app written in Javascript that displays `Hello World!` in a Jira issue panel. 
+Este proyecto contiene un calendario donde podemos crear, actualizar y eliminar nuestras actividades 
 
 See [developer.atlassian.com/platform/forge/](https://developer.atlassian.com/platform/forge) for documentation and tutorials explaining Forge.
 
@@ -26,6 +26,9 @@ forge deploy
 ```
 forge install
 ```
+
+* locutermo@gmail.com
+* 9f873U5eUixPWnVP4jE547CC
 
 ### Notes
 - Use the `forge deploy` command when you want to persist code changes.
