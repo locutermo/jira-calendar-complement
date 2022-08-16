@@ -46,3 +46,5 @@ https://fullcalendar.io/docs#toc
 https://fullcalendar.io/demos
 https://fullcalendar.io/docs/displayEventEnd
 https://fullcalendar.io/docs/event-render-hooks
+
+v2
